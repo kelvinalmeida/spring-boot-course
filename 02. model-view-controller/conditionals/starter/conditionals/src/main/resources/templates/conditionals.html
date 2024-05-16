@@ -7,6 +7,12 @@
         <!-- <p th:if="${sales > 50}"> Sales are good!</p> -->
         <!-- <p th:unless="${sales > 50}"> Sales are bad!</p> -->
 
-        <p th:if="${sales > 50} ? 'Sales were good!' : 'Sales ware bad!'"></p>
+        <!-- <p th:text="${sales > 50} ? 'Sales were good!' : 'Sales ware bad!'"></p> -->
+
+        <div th:switch="${product}">
+            <p th:case="'chair'">50</p>
+            <p th:case="'table'">40</p>
+            <p th:case="*">500</p>
+        </div>
     </body>
 </html>
