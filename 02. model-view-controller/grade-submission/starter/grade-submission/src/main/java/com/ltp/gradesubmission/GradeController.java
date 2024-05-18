@@ -1,6 +1,6 @@
 package com.ltp.gradesubmission;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -11,14 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class GradeController {
     
-    List<Grade> studentGrade = new ArrayList<>(); 
+    List<Grade> studentGrade = Arrays.asList(new Grade("Harry", "Portions", "C-"), new Grade("Kelvin", "Ingles", "A+"), new Grade("Ana", "Ciências", "A"));   
 
     @GetMapping("/grade")
     public String gerGrades(Model model) {
-
-        studentGrade.add(new Grade("Harry", "Portions", "C-"));
-        studentGrade.add(new Grade("Kelvin", "Ingles", "A+"));
-        studentGrade.add(new Grade("Ana", "Ciências", "A"));
 
         model.addAttribute("grades", studentGrade);
 
