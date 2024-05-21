@@ -1,13 +1,13 @@
 package com.ltp.gradesubmission;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -24,17 +24,34 @@ public class GradeController {
     }
 
     @GetMapping("/")
-    public String getForm(Model model) {
+    public String getForm(Model model, @RequestParam(required = false) String id) {
 
-        model.addAttribute("grade", new Grade());
+        Integer index = getUserIndex(id);
+
+        model.addAttribute("grade", index == Contants.NOT_FOUND ? new Grade() : studentGrade.get(index));
 
         return "form";
     }
 
     @PostMapping("/submitForm")
     public String submitForm(Grade grade) {
-        studentGrade.add(grade);
+
+        Integer index = getUserIndex(grade.getId());
+
+        if(index == Contants.NOT_FOUND) studentGrade.add(grade);
+        else studentGrade.set(index, grade);
+
         return "redirect:/grade";
+    }
+
+
+    public Integer getUserIndex(String id) {
+
+        for (Integer i = 0; i < studentGrade.size(); i++) {
+            if(studentGrade.get(i).getId().equals(id)) return i;
+        }
+
+        return Contants.NOT_FOUND;
     }
     
 }
