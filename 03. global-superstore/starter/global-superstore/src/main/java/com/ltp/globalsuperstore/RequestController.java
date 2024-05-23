@@ -23,7 +23,8 @@ public class RequestController {
     }
 
     @GetMapping("/inventory")
-    public String getInventory() {
+    public String getInventory(Model model) {
+        model.addAttribute("items", this.items);
         return "inventory";
     }
 
