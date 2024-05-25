@@ -43,14 +43,17 @@ public class RequestController {
     public String handleSubmit(Item item, RedirectAttributes redirectAttributes) {
         
         int index = getIdItem(item.getId());
+        String status = Constants.SUCCESS_STATUS;
 
-        if(index != Constants.NOT_EXIST) {
+        if(index == Constants.NOT_EXIST) {
+            items.add(item);
+        } else if(within5Days(item.getDate(), items.get(index).getDate())) {
             items.set(index, item);
         } else {
-            items.add(item);
+            status = Constants.FAILED_STATUS;
         }
 
-        redirectAttributes.addFlashAttribute("status", Constants.SUCCESS_STATUS);
+        redirectAttributes.addFlashAttribute("status", status);
 
         return "redirect:/inventory";
     }
